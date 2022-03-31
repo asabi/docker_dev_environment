@@ -1,0 +1,8 @@
+#!/bin/bash
+
+curl -sSL https://raw.githubusercontent.com/BretFisher/docker-vackup/main/vackup > ./backup
+chmod +x ./backup
+sudo mv backup /usr/local/bin
+
+#backup export VOLUME FILE  --> Creates a gzip'ed tarball in current directory from a volume
+#backup import FILE VOLUME  --> Extracts a gzip'ed tarball into a volume

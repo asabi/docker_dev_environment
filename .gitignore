@@ -1,0 +1,15 @@
+git.pem
+aws-config-user
+allowed_emails.txt
+services.conf
+.history
+.local
+.vscode-remote
+root_caddy/*
+caddy/data/*
+caddy/config/*
+.env
+
+!caddy/root_caddy/.placeholder
+!caddy/data/.placeholder
+!caddy/config/.placeholder

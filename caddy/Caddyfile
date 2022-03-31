@@ -1,0 +1,82 @@
+{
+	http_port 80
+	https_port 443
+	# debug
+
+	order authenticate before respond
+	order authorize before basicauth
+
+	security {
+		authentication portal myportal {
+			crypto default token lifetime 3600
+			crypto key sign-verify {$JWT_SHARED_KEY}
+            
+			cookie domain sabi.ai
+			ui {
+				links {
+					"My Identity" "/whoami" icon "las la-user"
+				}
+			}
+
+			##### LOCAL ######
+            backend local {$HOME}/.local/caddy/users.json local
+            transform user {
+                match realm local
+                action add role authp/admin
+                ui link "Portal Settings" /settings icon "las la-cog"
+                ui link "Dev Machine" https://{$DOMAIN}/ icon "las la-star"
+            }
+
+			##### OAUTH WITH GITHUB ######
+			##### EXAMPLE limit by github account and user name #####
+            ##### INSTRUCTIONS: https://authp.github.io/docs/authenticate/oauth/backend-oauth2-0007-github
+            ##### SETUP LOCATION: https://github.com/settings/developers
+            ##### CALLBACK: https://{AUTH_DOMAIN}/oauth2/github
+            #backend github {env.GITHUB_CLIENT_ID} {env.GITHUB_CLIENT_SECRET}
+            #transform user {
+            #    match realm github
+            #    action add role authp/user
+            #}
+            #transform user {
+            #    match realm github
+            #    match sub github.com/asabi # Limit access to account
+            #    match name "Alon Sabi" # Further limit access
+            #    require mfa
+            #    action add role authp/admin
+            #    ui link "Dev Machine" https://dev.sabi.ai/ icon "las la-star"
+            #}
+            ##### OAUTH WITH GOOGLE ######
+			##### EXAMPLE limit by email address #####
+            ##### INSTRUCTIONS: https://authp.github.io/docs/authenticate/oauth/backend-oauth2-0002-google
+            ##### SETUP LOCATION: https://console.cloud.google.com/apis/dashboard
+            ##### CALLBACK: https://{AUTH_DOMAIN}/oauth2/google/authorization-code-callback
+            #backend google {env.GOOGLE_CLIENT_ID} {env.GOOGLE_CLIENT_SECRET}
+            #transform user {
+            #    match realm google
+            #    match email alon@sabi.me # Limit access by email address
+            #    require mfa
+            #    action add role authp/admin
+            #    ui link "Dev Machine" https://dev.sabi.ai/ icon "las la-star"
+            #}
+
+		}
+
+		authorization policy mypolicy {
+			set auth url https://{$AUTH_DOMAIN}
+			crypto key verify {$JWT_SHARED_KEY}
+			allow roles authp/admin
+			validate bearer header
+			inject headers with claims
+		}
+	}
+}
+
+
+{$AUTH_DOMAIN} {
+	authenticate with myportal
+}
+
+{$DOMAIN} {
+	authorize with mypolicy
+	reverse_proxy dev:3000
+}

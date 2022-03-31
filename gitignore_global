@@ -1,0 +1,10 @@
+.vscode
+__pycache__
+.history
+.terraform
+.serverless
+.bundle
+bundle
+secrets
+node_modules
+tempCode*

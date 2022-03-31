@@ -1,0 +1,8 @@
+Host github.com
+    Hostname        github.com
+    User            git
+    IdentityFile /home/workspace/.ssh/git
+    IdentitiesOnly yes
+
+Host *
+ServerAliveInterval 60

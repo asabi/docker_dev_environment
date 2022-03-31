@@ -1,0 +1,25 @@
+[default]
+region=us-west-2
+
+[profile default]
+mfa_serial=arn:aws:iam::<account>:mfa/<aws-user>
+
+[profile production]
+source_profile=default
+role_arn=arn:aws:iam::<production account>:role/admin
+mfa_serial=arn:aws:iam::<default accont>:mfa/<aws-user>
+
+[profile staging]
+source_profile=default
+role_arn=arn:aws:iam::<staging account>:role/admin
+mfa_serial=arn:aws:iam::<default accont>:mfa/<aws-user>
+
+[profile integration]
+source_profile=default
+role_arn=arn:aws:iam::<integration account>:role/admin
+mfa_serial=arn:aws:iam::<default accont>:mfa/<aws-user>
+
+[profile sandbox]
+source_profile=default
+role_arn=arn:aws:iam::<sandbox account>:role/admin
+mfa_serial=arn:aws:iam::<default accont>:mfa/<aws-user>

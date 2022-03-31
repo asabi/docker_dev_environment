@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Ruby Related
+code --install-extension wingrunr21.vscode-ruby
+code --install-extension rebornix.ruby
+code --install-extension formulahendry.code-runner
+code --install-extension castwide.solargraph
+echo "ruby-rubcocop is not part of the open vs code extensions."
+echo "Download it from: https://marketplace.visualstudio.com/items?itemName=misogi.ruby-rubocop"
+echo "Drag it to your container through the vscode interface and run"
+echo "code --install-extension <path to rubcocop>"
+
+# Python Related
+code --install-extension ms-python.python
+
+# General
+code --install-extension xyz.local-history
+code --install-extension emmanuelbeziat.vscode-great-icons
+code --install-extension esbenp.prettier-vscode
+echo "partial diff is not part of the open vs code extensions."
+echo "Download it from: https://marketplace.visualstudio.com/items?itemName=ryu1kn.partial-diff"
+echo "Drag it to your container through the vscode interface and run"
+echo "code --install-extension <path to partial diff>"
+
+cd /home/app/src
+git clone https://github.com/mathieujobin/git-scripts
+cd git-scripts
+./install.sh

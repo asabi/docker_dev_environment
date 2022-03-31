@@ -1,0 +1,1 @@
+ssh -f -N -M -S /tmp/tunnel  -L 127.0.0.1:<local port>:<remote host>:<remote port> <user>@<remote server>
