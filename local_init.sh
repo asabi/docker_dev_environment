@@ -23,21 +23,6 @@ else
     exit 1
 fi
 
-if hash caddy 2>/dev/null; then
-    # Load Environment Variables
-    echo "✅ Caddy is installed"
-else 
-    echo "❌ Could not find caddy"
-    echo "Look at options here https://caddyserver.com/docs/install"
-    if [[ $OSTYPE == 'darwin'* ]]; then
-        echo "The easiest way to install caddy is using homebrew"
-        echo "The command to install homebrew is here: https://brew.sh"
-        echo "Once installed run brew install caddy"
-    fi
-    echo "Install Caddy"
-    exit 1
-fi
-
 docker build \
     --build-arg email=$GIT_EMAIL \
     --build-arg name=$GIT_NAME \
@@ -56,6 +41,3 @@ docker run \
     "${CONTAINER_NAME}"
 docker logs "${CONTAINER_NAME}"
 rm -Rf ./git.pem
-
-caddy stop
-caddy start --config caddy/Caddyfile_local
