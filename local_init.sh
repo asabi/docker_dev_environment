@@ -33,8 +33,7 @@ docker stop $CONTAINER_NAME
 docker rm $CONTAINER_NAME
 docker run \
     -d \
-    -v venv_volume_$CONTAINER_NAME:/home/workspace/venv \
-    -v dev_volume_$CONTAINER_NAME:/home/workspace/src \
+    -v volume_$CONTAINER_NAME:/home/workspace \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -p $VSCODE_PORT:3000 \
     --name "${CONTAINER_NAME}" \

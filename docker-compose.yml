@@ -37,9 +37,8 @@ services:
     #platform: "linux/x86_64"
     #platform: "linux/amd64"
     volumes:
-      - "venv:/home/workspace/venv"
+      - "volume_${CONTAINER_NAME}:/home/workspace"
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - "src:/home/workspace/src"
     ports:
       - "${VSCODE_PORT}:3000"
     restart: always
