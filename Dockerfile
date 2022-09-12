@@ -17,7 +17,7 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.39.0/install.sh | b
     && nvm install v$NODE_VERSION \
     && nvm alias default $NODE_VERSION \
     && nvm use default
-    
+
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 RUN npm i -g serverless
@@ -26,9 +26,9 @@ RUN echo "alias ll='ls -alF'" >> /home/workspace/.profile
 # Set up AWS VAULT
 RUN arch=$(uname -m) && \
     if [ "${arch}" = "x86_64" ]; then \
-        arch="amd64"; \
+    arch="amd64"; \
     elif [ "${arch}" = "aarch64" ]; then \
-        arch="arm64"; \
+    arch="arm64"; \
     fi && \
     sudo curl -L -o /usr/local/bin/aws-vault https://github.com/99designs/aws-vault/releases/download/v6.2.0/aws-vault-linux-${arch} && \
     sudo chmod +x /usr/local/bin/aws-vault && \
@@ -88,7 +88,7 @@ RUN sudo apt-get install -y make build-essential zlib1g-dev libbz2-dev \
     #CONFIGURE_OPTS=--enable-shared /home/workspace/.pyenv/bin/pyenv install 3.7.9 && \
     /home/workspace/.pyenv/bin/pyenv install 3.8.12 && \
     /home/workspace/.pyenv/bin/pyenv global 3.8.12
-RUN /home/workspace/.pyenv/shims/pip install pipenv && \
+RUN /home/workspace/.pyenv/shims/pip install pipenv==2022.8.5 && \
     mkdir -p /home/workspace/venv && \
     echo 'export WORKON_HOME=/home/workspace/venv' >> /home/workspace/.profile && \
     /home/workspace/.pyenv/shims/pip install -U pipenv
@@ -99,18 +99,18 @@ RUN sudo apt-get install apt-transport-https ca-certificates curl gnupg lsb-rele
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
     arch=$(uname -m) && \
     if [ "${arch}" = "x86_64" ]; then \
-        arch="amd64"; \
+    arch="amd64"; \
     elif [ "${arch}" = "aarch64" ]; then \
-        arch="arm64"; \
+    arch="arm64"; \
     elif [ "${arch}" = "armv7l" ]; then \
-        arch="armhf"; \
+    arch="armhf"; \
     fi && \
     echo "deb [arch=${arch} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null &&\
     sudo apt-get update && \
     sudo apt-get install docker-ce docker-ce-cli containerd.io -y && \
     sudo usermod -a -G docker openvscode-server && \
     echo 'alias docker="sudo chmod 777 /var/run/docker.sock && docker"' >> /home/workspace/.profile
-    
+
 # Prompt
 RUN echo "PS1='\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /home/workspace/.profile 
 
@@ -118,11 +118,11 @@ RUN echo "PS1='\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /home/workspace/.profile
 USER root
 RUN arch=$(uname -m) && \
     if [ "${arch}" = "x86_64" ]; then \
-        arch="amd64"; \
+    arch="amd64"; \
     elif [ "${arch}" = "aarch64" ]; then \
-        arch="arm64"; \
+    arch="arm64"; \
     fi && \
-    
+
     wget https://github.com/sabi-ai/aws-creds/releases/download/V1.0/aws-creds-${arch}.tar.gz && \
     tar -xzf aws-creds-${arch}.tar.gz && \
     mv -f aws-creds /usr/local/bin && \
@@ -167,5 +167,5 @@ RUN sudo chown openvscode-server:openvscode-server /home/workspace/.ssh/git && \
     git config --global user.email "$email"
 RUN ln -s /home/workspace/.ssh /home/openvscode-server/.ssh
 
-    
+
 WORKDIR $code_location
